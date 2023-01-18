@@ -1,10 +1,3 @@
-//
-//  ChecklistItem.swift
-//  CheckLists
-//
-//  Created by Dzhami Rakhmetov on 1/10/22.
-//
-
 import Foundation
 import UserNotifications
 
@@ -54,5 +47,4 @@ class ChecklistItem : NSObject, Codable {
         let center = UNUserNotificationCenter.current()
         center.removePendingNotificationRequests(withIdentifiers: ["\(itemID)"])
     }
-    
 }

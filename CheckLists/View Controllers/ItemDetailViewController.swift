@@ -1,10 +1,3 @@
-//
-//  AddItemTableViewController.swift
-//  CheckLists
-//
-//  Created by Dzhami Rakhmetov on 6/10/22.
-//
-
 import UIKit
 import UserNotifications
 
@@ -15,7 +8,7 @@ protocol ItemDetailViewControllerDelegate: AnyObject {
 }
 
 class ItemDetailViewController: UITableViewController, UITextFieldDelegate {
-
+    
     @IBOutlet weak var textField: UITextField!
     @IBOutlet weak var doneBarButton: UIBarButtonItem!
     @IBOutlet weak var shouldRemindSwitch: UISwitch!
@@ -26,7 +19,7 @@ class ItemDetailViewController: UITableViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+        
         if let item = itemToEdit {
             title = "Edit item"
             textField.text = item.text
@@ -55,28 +48,27 @@ class ItemDetailViewController: UITableViewController, UITextFieldDelegate {
             item.scheduleNotification()
             
             delegate?.itemDetailViewController(self, didFinishEditing: item)
-            
         } else {
-          let item = ChecklistItem()
-          item.text = textField.text!
-          item.shouldRemind = shouldRemindSwitch.isOn
-          item.dueDate = datePicker.date
-          item.scheduleNotification()
+            let item = ChecklistItem()
+            item.text = textField.text!
+            item.shouldRemind = shouldRemindSwitch.isOn
+            item.dueDate = datePicker.date
+            item.scheduleNotification()
             
-          delegate?.itemDetailViewController(self, didFinishAdding: item)
+            delegate?.itemDetailViewController(self, didFinishAdding: item)
         }
-      }
+    }
     
     @IBAction func shouldRemindToggled( _ switchControl : UISwitch){
         textField.resignFirstResponder()
         
-          if switchControl.isOn {
+        if switchControl.isOn {
             let center = UNUserNotificationCenter.current()
             center.requestAuthorization(options: [.alert, .sound]) {_, _ in
                 // do nothing
+            }
         }
     }
-}
     // MARK: - Table View Delegates
     
     

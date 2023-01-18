@@ -12,7 +12,6 @@ protocol ListDetailViewControllerDelegate: AnyObject {
     func listDetailViewControllerDidCancel(_ controller : ListDetailViewController)
     func listDetailViewController(_ controller: ListDetailViewController, didFinishEditing item: Checklist)
     func listDetailViewController(_ controller: ListDetailViewController, didFinishAdding item: Checklist)
-    
 }
 
 class ListDetailViewController : UITableViewController, UITextFieldDelegate, IconPickerViewControllerDelegate {
@@ -50,13 +49,13 @@ class ListDetailViewController : UITableViewController, UITextFieldDelegate, Ico
     
     @IBAction func done(){
         if let checklist = checklistToEdit {
-          checklist.name = textField.text!
-          checklist.iconName = iconName
+            checklist.name = textField.text!
+            checklist.iconName = iconName
             delegate?.listDetailViewController(self, didFinishEditing: checklist)
         } else {
             let checklist = Checklist(name: textField.text!, iconName: iconName)
-          checklist.iconName = iconName
-          delegate?.listDetailViewController(self, didFinishAdding: checklist)
+            checklist.iconName = iconName
+            delegate?.listDetailViewController(self, didFinishAdding: checklist)
         }
     }
     

@@ -1,7 +1,7 @@
 import Foundation
 
 class DataModel {
-  var lists = [Checklist]()
+    var lists = [Checklist]()
     
     init(){
         loadChecklists()
@@ -85,5 +85,4 @@ class DataModel {
         userDefaults.set(itemID + 1, forKey: "ChecklistItemID")
         return itemID
     }
-    
 }

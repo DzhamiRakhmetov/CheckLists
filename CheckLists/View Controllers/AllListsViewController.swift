@@ -1,14 +1,7 @@
-//
-//  AllListsViewController.swift
-//  CheckLists
-//
-//  Created by Dzhami Rakhmetov on 11/10/22.
-//
-
 import UIKit
 
 class AllListsViewController: UITableViewController, ListDetailViewControllerDelegate, UINavigationControllerDelegate {
-
+    
     let cellIdentifier = "ChecklistCell"
     var dataModel : DataModel!
     
@@ -16,15 +9,16 @@ class AllListsViewController: UITableViewController, ListDetailViewControllerDel
         super.viewDidLoad()
         navigationController?.navigationBar.prefersLargeTitles = true
     }
+    
     //the view is about to become visible but the animation hasn’t started yet.
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
     }
+    
     //the view is visible on the screen and the animation has completed
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
         navigationController?.delegate = self
         
         let index = dataModel.indexOfSelectedChecklist
@@ -34,19 +28,17 @@ class AllListsViewController: UITableViewController, ListDetailViewControllerDel
         }
     }
     
-    
-    
     // MARK: - Navigation
-        
-        override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-            if segue.identifier == "ShowChecklist" {
-                let controller = segue.destination as! ChecklistViewController
-                controller.checklist = sender as? Checklist
-            } else if segue.identifier == "AddChecklist" {
-                let controller = segue.destination as! ListDetailViewController
-                controller.delegate = self
-            }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ShowChecklist" {
+            let controller = segue.destination as! ChecklistViewController
+            controller.checklist = sender as? Checklist
+        } else if segue.identifier == "AddChecklist" {
+            let controller = segue.destination as! ListDetailViewController
+            controller.delegate = self
         }
+    }
     
     // MARK: - Navigation Controller Delegates
     
@@ -57,12 +49,12 @@ class AllListsViewController: UITableViewController, ListDetailViewControllerDel
         }
     }
     // MARK: - Table view data source
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return dataModel.lists.count
     }
-
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell : UITableViewCell!
         if let tmp = tableView.dequeueReusableCell(withIdentifier: cellIdentifier) {
@@ -99,8 +91,6 @@ class AllListsViewController: UITableViewController, ListDetailViewControllerDel
         
         let indexPaths = [indexPath]
         tableView.deleteRows(at: indexPaths, with: .automatic)
-        
-        
     }
     
     override func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
@@ -113,6 +103,7 @@ class AllListsViewController: UITableViewController, ListDetailViewControllerDel
         navigationController?.pushViewController(controller, animated: true)
     }
     // MARK: - List Detail View Controller Delegates
+    
     
     func listDetailViewControllerDidCancel(_ controller: ListDetailViewController) {
         navigationController?.popViewController(animated: true)
@@ -130,6 +121,4 @@ class AllListsViewController: UITableViewController, ListDetailViewControllerDel
         tableView.reloadData()
         navigationController?.popViewController(animated: true)
     }
-
-    
 }

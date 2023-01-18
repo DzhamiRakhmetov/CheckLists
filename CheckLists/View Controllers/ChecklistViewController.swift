@@ -1,23 +1,11 @@
-//
-//  ViewController.swift
-//  CheckLists
-//
-//  Created by Dzhami Rakhmetov on 17/9/22.
-//
-
 import UIKit
 
 class ChecklistViewController: UITableViewController , ItemDetailViewControllerDelegate {
     
-
-    
-  
     var checklist : Checklist!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
         
         //changes the title of the screen to the name of the Checklist object
         title = checklist.name
@@ -47,7 +35,7 @@ class ChecklistViewController: UITableViewController , ItemDetailViewControllerD
             label.text = "√"
         } else {
             label.text = ""
-          }
+        }
     }
     
     func configureText(for cell : UITableViewCell, with item : ChecklistItem){
@@ -61,12 +49,11 @@ class ChecklistViewController: UITableViewController , ItemDetailViewControllerD
     override func tableView(_ tableView : UITableView,  numberOfRowsInSection section : Int) -> Int {
         return checklist.items.count
     }
-
+    
     override func tableView(_ tableView : UITableView, cellForRowAt indexPath : IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ChecklistItem", for: indexPath)
-        
         let item = checklist.items[indexPath.row]
-
+        
         configureText(for: cell, with: item)
         configureCheckmark(for: cell, with: item)
         
@@ -76,18 +63,14 @@ class ChecklistViewController: UITableViewController , ItemDetailViewControllerD
     
     // Select / Deselect rows and checkmark
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         if let cell = tableView.cellForRow(at: indexPath){
-            
             let item = checklist.items[indexPath.row]
-            item.checked.toggle()
             
+            item.checked.toggle()
             configureCheckmark(for: cell, with: item)
-               }
-              tableView.deselectRow(at: indexPath, animated: true)
-        
-        
-            }
+        }
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
     
     // Deleting row
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
@@ -96,8 +79,6 @@ class ChecklistViewController: UITableViewController , ItemDetailViewControllerD
         //2
         let indexPaths = [indexPath]
         tableView.deleteRows(at: indexPaths, with: .automatic)
-        
-        
     }
     
     // MARK: - Add Item View Controller Delegates
@@ -107,28 +88,25 @@ class ChecklistViewController: UITableViewController , ItemDetailViewControllerD
     
     func itemDetailViewController(_ controller: ItemDetailViewController, didFinishAdding item: ChecklistItem) {
         let newRowIndex = checklist.items.count
-            checklist.items.append(item)
+        checklist.items.append(item)
         
         let indexPath = IndexPath(row: newRowIndex, section: 0)
         let indexPaths = [indexPath]
         tableView.insertRows(at: indexPaths, with: .automatic)
         navigationController?.popViewController(animated: true)
-        
-        
     }
     
     func itemDetailViewController(_ controller: ItemDetailViewController,didFinishEditing item: ChecklistItem){
         if let index = checklist.items.firstIndex(of: item) {
-        let indexPath = IndexPath(row: index, section: 0)
-        if let cell = tableView.cellForRow(at: indexPath) {
-          configureText(for: cell, with: item)
+            let indexPath = IndexPath(row: index, section: 0)
+            if let cell = tableView.cellForRow(at: indexPath) {
+                configureText(for: cell, with: item)
+            }
         }
-    }
-      navigationController?.popViewController(animated: true)
-        
+        navigationController?.popViewController(animated: true)
     }
     
-// MARK: - Data Managing
+    // MARK: - Data Managing
     
     func documentsDirectory() -> URL{
         let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
@@ -138,7 +116,5 @@ class ChecklistViewController: UITableViewController , ItemDetailViewControllerD
     func dataFilePath() -> URL {
         return documentsDirectory().appendingPathComponent("Checklists.plist")
     }
-    
-
 }
 
